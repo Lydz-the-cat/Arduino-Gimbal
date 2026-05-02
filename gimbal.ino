@@ -30,7 +30,14 @@ void setup() {
   pinMode(6, OUTPUT); // Pitch servo pin
   pinMode(7, OUTPUT); // Yaw servo pin
 
+  /*
+  In the following line, I'm changing the BNO055's mode from NDOF to IMUPLUS. By default, the sensor calculates its angular position using the accelerometer, gyroscope, and magnetometer.
+  However, the magnetometer takes a while after powering on to find magnetic North, and once it does, the BNO055 changes its reference origin to align with magnetic North. This was messing up
+  my yaw readings, because I only want my sensor readings to be relative to its position when I power it on. In IMUPLUS mode, it only calculates its angular position from accelerometer
+  and gyroscope data and ignores the magnetometer.
+  */
   bno.setMode(OPERATION_MODE_IMUPLUS);
+
   bno.setExtCrystalUse(true); // Using the Arduino's crystal for timing instead of the BNO055's - probably more stable/precise for its euler angle calculations
 }
 
